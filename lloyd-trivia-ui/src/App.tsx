@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Box } from '@mui/material';
+import './App.css';
+import AnswerChoiceScreen from './screens/AnswerChoiceScreen/AnswerChoiceScreen';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Box
+      width={'100vw'}
+      height={'100vh'}
+      display={'flex'}
+      justifyContent={'center'}
+      alignItems={'center'}
+    >
+      <AnswerChoiceScreen
+        isAdmin={false}
+        question={{
+          value: 600,
+          type: 'TRUE_FALSE',
+          question: 'Is Beryl Jin Kinsey cute?',
+          photoPath: '/testImage1.jpg',
+          dailyDouble: false,
+        }}
+      />
+      <AnswerChoiceScreen
+        isAdmin={false}
+        question={{
+          value: 800,
+          type: 'FILL_IN_THE_BLANK',
+          question: 'The _ in the ocean.',
+          photoPath: '/testImage1.jpg',
+          dailyDouble: true,
+        }}
+      />
+      <AnswerChoiceScreen
+        isAdmin={true}
+        question={{
+          value: 200,
+          type: 'MULTIPLE_CHOICE',
+          question: 'What is the name of our cat?',
+          options: ['Nelson', 'Simba', 'Theo', 'Mittens'],
+          photoPath: '/testImage1.jpg',
+          dailyDouble: false,
+        }}
+      />
+    </Box>
+  );
 }
 
-export default App
+export default App;
