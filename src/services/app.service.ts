@@ -42,7 +42,9 @@ export class AppService {
 
     const teamId = randomUUID();
 
-    game.teams.push(new Team(teamId, teamName, avatarId));
+    if (!game.teams.find((T) => T.name === teamName)) {
+      game.teams.push(new Team(teamId, teamName, avatarId));
+    }
 
     this.logger.log(`Team with id: ${teamId} has joined game: ${gameId}`);
 
