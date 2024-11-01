@@ -21,7 +21,7 @@ export class AppService {
   }
 
   getGameIds(): string[] {
-    return this.games.map((G) => G.gameId);
+    return this.games.filter((G) => G.state === 'WAITING').map((G) => G.gameId);
   }
 
   getGame(gameId: string): Game {
