@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const gameStateOptions: string[] = [
-  'NOT_STARTED',
+  'WAITING',
   'PICKING_QUESTION',
   'ANSWERING',
   'RESULTS',

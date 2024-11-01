@@ -29,6 +29,7 @@ export class AppService {
   }
 
   createNewGame(gameId: string, adminId: string): string {
+    if (this.games.find((G) => G.gameId === gameId)) return null;
     this.games.push(new Game(gameId, adminId, this.questionBank));
     this.logger.log(`New game created with id: ${gameId}`);
     return gameId;

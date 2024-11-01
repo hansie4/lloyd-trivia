@@ -1,5 +1,5 @@
 export interface QuestionBank {
-  categories: Question[];
+  categories: Catergory[];
 }
 
 export interface Catergory {

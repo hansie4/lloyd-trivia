@@ -10,6 +10,6 @@ export class Team {
     this.name = name;
     this.avatarId = avatarId;
     this.score = 0;
-    this.sabatages = 0;
+    this.sabatages = 1;
   }
 }
