@@ -218,4 +218,8 @@ export class Game {
 
     return sabatogeMap;
   }
+
+  isTeamIdInGame(teamId: string): boolean {
+    return Boolean(this.teams.find((T) => T.teamId === teamId));
+  }
 }
