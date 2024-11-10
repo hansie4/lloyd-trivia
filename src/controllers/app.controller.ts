@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -13,6 +14,7 @@ import { AppService } from '../services/app.service';
 import { interval, map, Observable } from 'rxjs';
 import { Game } from 'src/game/Game';
 import { Response } from 'express';
+import { Action } from 'src/types/GameMove';
 
 @Controller()
 export class AppController {
@@ -69,5 +71,44 @@ export class AppController {
     } else {
       response.status(400).send();
     }
+  }
+
+  @Post('admin/start')
+  adminStart(@Query() adminId: string, @Query() gameId: string) {
+    this.appService.adminStartGame(adminId, gameId);
+  }
+
+  @Post('admin/show')
+  adminShow(@Query() adminId: string, @Query() gameId: string) {
+    this.appService.adminShowQuestions(adminId, gameId);
+  }
+
+  @Post('admin/reveal')
+  adminReveal(@Query() adminId: string, @Query() gameId: string) {
+    this.appService.adminRevealAnswers(adminId, gameId);
+  }
+
+  @Post('admin/next')
+  adminGoToNext(@Query() adminId: string, @Query() gameId: string) {
+    this.appService.adminGoToNextQuestion(adminId, gameId);
+  }
+
+  @Post('team/answer')
+  teamAnswer(
+    @Query() teamId: string,
+    @Query() gameId: string,
+    @Body() action: Action,
+  ) {
+    this.appService.teamAddAction(teamId, action, gameId);
+  }
+
+  @Post('team/pick-question')
+  teamPickQuestion(
+    @Query() teamId: string,
+    @Query() gameId: string,
+    @Query() catId: string,
+    @Query() questionValue: number,
+  ) {
+    this.appService.teamSelectQuestion(teamId, catId, questionValue, gameId);
   }
 }

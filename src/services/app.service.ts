@@ -90,7 +90,7 @@ export class AppService {
     game.addToActionQueue(action);
   }
 
-  selectQuestion(
+  teamSelectQuestion(
     teamId: string,
     catId: string,
     questionValue: number,
