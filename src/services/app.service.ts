@@ -13,16 +13,10 @@ export class AppService {
 
   private games: Game[] = [];
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  getGamesDebug(): Game[] {
-    return this.games;
-  }
-
-  getGameIds(): string[] {
-    return this.games.filter((G) => G.state === 'WAITING').map((G) => G.gameId);
+  getGames(): unknown[] {
+    return this.games
+      .filter((G) => G.state === 'WAITING')
+      .map((G) => G.getGameForTeamView(''));
   }
 
   getGame(gameId: string): Game {

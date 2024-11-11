@@ -24,17 +24,12 @@ export class AppController {
 
   @Get('hello')
   getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Get('debug')
-  debugGames(): Game[] {
-    return this.appService.getGamesDebug();
+    return 'Hello';
   }
 
   @Get('games')
-  getGames(): string[] {
-    return this.appService.getGameIds();
+  getGames(): unknown[] {
+    return this.appService.getGames();
   }
 
   @Post('games')

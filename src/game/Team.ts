@@ -12,4 +12,14 @@ export class Team {
     this.score = 0;
     this.sabatages = 1;
   }
+
+  getInfoForTeamView(includeTeamId: boolean = false) {
+    return {
+      teamId: includeTeamId ? this.teamId : undefined,
+      name: this.name,
+      avatarId: this.avatarId,
+      score: this.score,
+      sabatages: this.sabatages,
+    };
+  }
 }

@@ -2,6 +2,7 @@ import { Team } from './Team';
 import { GameStates } from 'src/types/GameStates';
 import { Question, QuestionBank } from 'src/types/QuestionBank';
 import { Action } from 'src/types/GameMove';
+import { GameState } from 'src/types/GameState';
 
 export class Game {
   gameId: string;
@@ -221,5 +222,34 @@ export class Game {
 
   isTeamIdInGame(teamId: string): boolean {
     return Boolean(this.teams.find((T) => T.teamId === teamId));
+  }
+
+  getGameForTeamView(teamId: string): GameState {
+    return {
+      gameId: this.gameId,
+      state: this.state,
+      teams: this.teams.map((T) => T.getInfoForTeamView(T.teamId === teamId)),
+      questionBank: {
+        categories: this.questionBank.categories.map((C) => {
+          return {
+            ...C,
+            200: { ...C[200], correctAnswer: undefined },
+            400: { ...C[400], correctAnswer: undefined },
+            600: { ...C[600], correctAnswer: undefined },
+            800: { ...C[800], correctAnswer: undefined },
+            1000: { ...C[1000], correctAnswer: undefined },
+          };
+        }),
+      },
+      currentQuestion: {
+        ...this.currentQuestion,
+        question: {
+          ...this.currentQuestion?.question,
+          correctAnswer: undefined,
+        },
+      },
+      currentTeamTurn: this.currentTeamTurn,
+      actionQueue: this.state === 'RESULTS' ? this.actionQueue : undefined,
+    };
   }
 }

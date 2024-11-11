@@ -1,48 +1,63 @@
 import { Box } from '@mui/material';
 import './App.css';
-import AnswerChoiceScreen from './screens/AnswerChoiceScreen/AnswerChoiceScreen';
+import { createContext } from 'react';
+import useGameLoop from './util/useGameLoop';
+import CreateAndJoinScreen from './screens/CreateAndJoinScreen/CreateAndJoinScreen';
+
+const GameContext = createContext<{
+  loading: boolean;
+  isAdmin: boolean | undefined;
+  gameId: string | null;
+  playerId: string | null;
+  gameState: unknown;
+}>({
+  loading: false,
+  isAdmin: undefined,
+  gameId: null,
+  playerId: null,
+  gameState: null,
+});
 
 function App() {
+  const {
+    loading,
+    gameId,
+    playerId,
+    gameState,
+    activeGames,
+    loadGames,
+    joinGame,
+    createGame,
+  } = useGameLoop();
+
   return (
-    <Box
-      width={'100vw'}
-      height={'100vh'}
-      display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
+    <GameContext.Provider
+      value={{
+        loading: loading,
+        isAdmin: false,
+        gameId: '',
+        playerId: '',
+        gameState: null,
+      }}
     >
-      <AnswerChoiceScreen
-        isAdmin={false}
-        question={{
-          value: 600,
-          type: 'TRUE_FALSE',
-          question: 'Is Beryl Jin Kinsey cute?',
-          photoPath: '/testImage1.jpg',
-          dailyDouble: false,
-        }}
-      />
-      <AnswerChoiceScreen
-        isAdmin={false}
-        question={{
-          value: 800,
-          type: 'FILL_IN_THE_BLANK',
-          question: 'The _ in the ocean.',
-          photoPath: '/testImage1.jpg',
-          dailyDouble: true,
-        }}
-      />
-      <AnswerChoiceScreen
-        isAdmin={true}
-        question={{
-          value: 200,
-          type: 'MULTIPLE_CHOICE',
-          question: 'What is the name of our cat?',
-          options: ['Nelson', 'Simba', 'Theo', 'Mittens'],
-          photoPath: '/testImage1.jpg',
-          dailyDouble: false,
-        }}
-      />
-    </Box>
+      <Box
+        width={'100vw'}
+        height={'100vh'}
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        {!gameId || !playerId ? (
+          <CreateAndJoinScreen
+            activeGames={activeGames}
+            loadGames={loadGames}
+            joinGame={joinGame}
+            createGame={createGame}
+          />
+        ) : null}
+        <h1>{JSON.stringify(gameState)}</h1>
+      </Box>
+    </GameContext.Provider>
   );
 }
 

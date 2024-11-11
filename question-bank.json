@@ -7,21 +7,21 @@
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
@@ -29,14 +29,14 @@
         "question": "What is the name of our cat?",
         "options": ["Nelson", "Simba", "Theo", "Mittens"],
         "correctAnswer": "Simba",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
     },
@@ -47,21 +47,21 @@
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
@@ -69,14 +69,14 @@
         "question": "What is the name of our cat?",
         "options": ["Nelson", "Simba", "Theo", "Mittens"],
         "correctAnswer": "Simba",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
     },
@@ -87,21 +87,21 @@
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": true
       },
       "800": {
@@ -109,14 +109,14 @@
         "question": "What is the name of our cat?",
         "options": ["Nelson", "Simba", "Theo", "Mittens"],
         "correctAnswer": "Simba",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
     },
@@ -127,21 +127,21 @@
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
@@ -149,14 +149,14 @@
         "question": "What is the name of our cat?",
         "options": ["Nelson", "Simba", "Theo", "Mittens"],
         "correctAnswer": "Simba",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
     },
@@ -167,21 +167,21 @@
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
         "type": "TRUE_FALSE",
         "question": "Is Beryl Jin Kinsey cute?",
         "correctAnswer": true,
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
@@ -189,14 +189,14 @@
         "question": "What is the name of our cat?",
         "options": ["Nelson", "Simba", "Theo", "Mittens"],
         "correctAnswer": "Simba",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
         "question": "The _ in the ocean.",
         "correctAnswer": "motion",
-        "photoPath": "/testImage1.jpg",
+        "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
     }
