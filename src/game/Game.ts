@@ -88,32 +88,9 @@ export class Game {
 
   // Team actions
   getGameState(teamId: string): any {
-    const gameState: any = {
-      gameId: this.gameId,
-      state: this.state,
-      teamId: teamId,
-    };
-
-    switch (this.state) {
-      case 'WAITING':
-        gameState.teams = this.teams.map((T) => {
-          return {
-            name: T.name,
-            avatarId: T.avatarId,
-          };
-        });
-      case 'PICKING_QUESTION':
-        gameState.amIPicking =
-          this.teams[this.currentTeamTurn].teamId === teamId;
-      case 'ANSWERING':
-        gameState.teamsAnswered = this.actionQueue.map((A) => A.teamName);
-      case 'RESULTS':
-        gameState.test = 'test';
-      case 'OVER':
-        gameState.test = 'test';
-    }
-
-    return gameState;
+    return teamId === this.adminId
+      ? this.getGameForAdminView()
+      : this.getGameForTeamView(teamId);
   }
 
   addToActionQueue(action: Action): void {
@@ -224,8 +201,22 @@ export class Game {
     return Boolean(this.teams.find((T) => T.teamId === teamId));
   }
 
+  getGameForAdminView(): GameState {
+    return {
+      isAdmin: true,
+      gameId: this.gameId,
+      state: this.state,
+      teams: this.teams,
+      questionBank: this.questionBank,
+      currentQuestion: this.currentQuestion,
+      currentTeamTurn: this.currentTeamTurn,
+      actionQueue: this.actionQueue,
+    };
+  }
+
   getGameForTeamView(teamId: string): GameState {
     return {
+      isAdmin: false,
       gameId: this.gameId,
       state: this.state,
       teams: this.teams.map((T) => T.getInfoForTeamView(T.teamId === teamId)),

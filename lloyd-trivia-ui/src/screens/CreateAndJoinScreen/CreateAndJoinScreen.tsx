@@ -13,7 +13,6 @@ import {
   Typography,
   IconButton,
 } from '@mui/material';
-import { GameState } from '../../../../src/types/GameState';
 import useCreateAndJoinScreen from './useCreateAndJoinScreen';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
@@ -23,13 +22,19 @@ const CreateAndJoinScreen = ({
   joinGame,
   createGame,
 }: {
-  activeGames: GameState[];
+  activeGames: string[];
   loadGames: () => void;
-  joinGame: (gameId: string) => void;
+  joinGame: (gameId: string, teamName: string, avatarId: string) => void;
   createGame: (gameId: string) => void;
 }) => {
-  const { gameIdInput, handleGameIdChange, createNewGame, disableCreate } =
-    useCreateAndJoinScreen(createGame);
+  const {
+    gameIdInput,
+    teamNameInput,
+    handleGameIdChange,
+    handleTeamNameChange,
+    disableCreate,
+    disableJoin,
+  } = useCreateAndJoinScreen();
 
   return (
     <Container maxWidth={'xs'}>
@@ -42,13 +47,24 @@ const CreateAndJoinScreen = ({
               </IconButton>{' '}
               Click to join an existing game or create on below:
             </Typography>
+            <TextField
+              variant="outlined"
+              label="Team Name"
+              size="small"
+              fullWidth
+              value={teamNameInput}
+              onChange={handleTeamNameChange}
+            />
             <List>
               {activeGames.length ? (
                 activeGames.map((AG, I) => {
                   return (
                     <ListItem disablePadding key={I}>
-                      <ListItemButton onClick={() => joinGame(AG.gameId)}>
-                        <ListItemText>{AG.gameId}</ListItemText>
+                      <ListItemButton
+                        disabled={disableJoin}
+                        onClick={() => joinGame(AG, teamNameInput, 'TODO')}
+                      >
+                        <ListItemText>{AG}</ListItemText>
                       </ListItemButton>
                     </ListItem>
                   );
@@ -69,7 +85,10 @@ const CreateAndJoinScreen = ({
               onChange={handleGameIdChange}
             />
             <ButtonGroup variant="contained" fullWidth>
-              <Button onClick={createNewGame} disabled={disableCreate}>
+              <Button
+                onClick={() => createGame(gameIdInput)}
+                disabled={disableCreate}
+              >
                 Create game
               </Button>
             </ButtonGroup>

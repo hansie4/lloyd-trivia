@@ -18,7 +18,8 @@
     "axios": "^1.7.7",
     "lloyd-trivia-ui": "file:",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

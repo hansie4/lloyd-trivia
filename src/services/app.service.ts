@@ -14,9 +14,7 @@ export class AppService {
   private games: Game[] = [];
 
   getGames(): unknown[] {
-    return this.games
-      .filter((G) => G.state === 'WAITING')
-      .map((G) => G.getGameForTeamView(''));
+    return this.games.filter((G) => G.state === 'WAITING').map((G) => G.gameId);
   }
 
   getGame(gameId: string): Game {
@@ -34,6 +32,8 @@ export class AppService {
     const game: Game = this.games.find((G) => G.gameId === gameId);
 
     if (!game) throw new Error('Game does not exist with id: ' + gameId);
+
+    if (teamName === game.adminId) return game.adminId;
 
     const teamId = randomUUID();
 

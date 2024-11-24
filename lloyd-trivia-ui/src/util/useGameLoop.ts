@@ -1,16 +1,29 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { GAME_STATE_UPDATE_ENDPOINT, JOIN_GAME_ENDPOINT } from '../constants';
+import { useEffect, useRef, useState } from 'react';
+import {
+  CREATE_GAME_ENDPOINT,
+  EVENT_SOURCE_ENDPOINT,
+  GAME_STATE_UPDATE_ENDPOINT,
+  JOIN_GAME_ENDPOINT,
+} from '../constants';
 import { GameState } from '../../../src/types/GameState';
+import { v4 as uuidv4 } from 'uuid';
 
 const useGameLoop = () => {
+  const [activeGame, setActiveGame] = useState(localStorage.getItem('gameId'));
+  const [currentPlayerId, setCurrentPlayerId] = useState(
+    localStorage.getItem('playerId'),
+  );
+
+  const showJoinOrCreateScreen = !activeGame || !currentPlayerId;
+
+  const eventSource = useRef<EventSource>();
+
+  const [activeGames, setActiveGames] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [activeGames, setActiveGames] = useState<GameState[]>([]);
-  const [gameId, setGameId] = useState<string | null>();
-  const [playerId, setPlayerId] = useState<string | null>();
   const [gameState, setGameState] = useState<GameState>();
 
-  const loadGames = useCallback(async () => {
+  const loadGames = async () => {
     console.log('Fetching games');
     setLoading(true);
     try {
@@ -21,50 +34,89 @@ const useGameLoop = () => {
       setActiveGames([]);
     }
     setLoading(false);
-  }, []);
+  };
 
-  const joinGame = async (gameId: string) => {
+  const joinGame = async (
+    gameId: string,
+    teamName: string,
+    avatarId: string,
+  ) => {
     console.log('Joining game: ', gameId);
+
+    setLoading(true);
     try {
-        await axios.
+      await axios.post(
+        JOIN_GAME_ENDPOINT,
+        {},
+        {
+          params: {
+            gameId: gameId,
+            teamName: teamName,
+            avatarId: avatarId,
+          },
+        },
+      );
+
+      subscribeToEventSource(gameId, teamName);
     } catch (error) {
-        console.log(error)
+      console.log(error);
+      setLoading(false);
     }
   };
 
   const createGame = async (gameId: string) => {
     console.log('Creating game: ', gameId);
+    const newAdminId = uuidv4();
+    setLoading(true);
+
+    try {
+      await axios.post(
+        CREATE_GAME_ENDPOINT,
+        {},
+        {
+          params: {
+            gameId: gameId,
+            adminId: newAdminId,
+          },
+        },
+      );
+
+      subscribeToEventSource(gameId, newAdminId);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const subscribeToEventSource = (gameId: string, playerId: string) => {
+    console.log('SUBSCRIBING TO GAME LOOP');
+
+    localStorage.setItem('gameId', gameId);
+    localStorage.setItem('playerId', playerId);
+
+    const params = `?gameId=${encodeURIComponent(gameId)}&playerId=${encodeURIComponent(playerId)}`;
+    eventSource.current = new EventSource(EVENT_SOURCE_ENDPOINT + params);
+
+    eventSource.current.onmessage = (event: any) => {
+      console.log('UPDATE RECIEVED');
+      setGameState(JSON.parse(event.data));
+      setLoading(false);
+    };
+
+    eventSource.current.onerror = () => {
+      console.log('ERROR CONNECTING TO GAME LOOP');
+      //localStorage.clear();
+      eventSource.current?.close();
+    };
   };
 
   useEffect(() => {
-    let eventSource = null;
-
-    const gId = localStorage.getItem('gameId');
-    const pId = localStorage.getItem('playerId');
-
-    setGameId(gId);
-    setPlayerId(pId);
-
-    if (gId && pId) {
-      eventSource = new EventSource('/game-events');
-
-      eventSource.onmessage = (event) => {
-        console.log(event);
-        setGameState(event.data);
-      };
-    }
-
     loadGames();
-
-    return () => {
-      if (eventSource) eventSource.close();
-    };
-  }, [loadGames]);
+  }, []);
 
   return {
+    showJoinOrCreateScreen,
     loading,
-    gameId,
-    playerId,
     gameState,
     activeGames,
     loadGames,

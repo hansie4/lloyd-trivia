@@ -3,6 +3,7 @@ import { GameStates } from './GameStates';
 import { Question, QuestionBank } from './QuestionBank';
 
 export interface GameState {
+  isAdmin?: boolean;
   gameId: string;
   state: GameStates;
   teams: {

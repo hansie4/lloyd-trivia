@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-const useCreateAndJoinScreen = (createGame: (gameId: string) => void) => {
+const useCreateAndJoinScreen = () => {
   const [gameIdInput, setGameIdInput] = useState('');
+  const [teamNameInput, setTeamNameInput] = useState('');
 
   const handleGameIdChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -9,15 +10,19 @@ const useCreateAndJoinScreen = (createGame: (gameId: string) => void) => {
     setGameIdInput(e.target.value);
   };
 
-  const createNewGame = () => {
-    if (gameIdInput) createGame(gameIdInput);
+  const handleTeamNameChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setTeamNameInput(e.target.value);
   };
 
   return {
     gameIdInput,
+    teamNameInput,
     handleGameIdChange,
-    createNewGame,
+    handleTeamNameChange,
     disableCreate: !gameIdInput,
+    disableJoin: !teamNameInput,
   };
 };
 
