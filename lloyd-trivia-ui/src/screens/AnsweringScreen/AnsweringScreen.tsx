@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Divider,
   Stack,
   TextField,
   ToggleButton,
@@ -12,15 +13,14 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext, useState } from 'react';
-import { GameContext } from '../../App';
+import { GameContext, GREEN } from '../../App';
 import { Question } from '../../../../src/types/QuestionBank';
 import StarIcon from '@mui/icons-material/Star';
+import { Action } from '../../../../src/types/GameMove';
+import { adminReveal, playerAnswerQuestion } from '../../util/gateways';
 
 const AnsweringScreen = () => {
   const { gameState, playerId } = useContext(GameContext);
-
-  const [answerSubmitted, setAnswerSubmitted] = useState(false);
-  const [teamToSabatage, setTeamToSabatage] = useState(null);
 
   const question = gameState?.currentQuestion?.question;
 
@@ -31,11 +31,38 @@ const AnsweringScreen = () => {
   const currentTeam = gameState?.teams.find((T) => Boolean(T.teamId));
   const sabatages = currentTeam ? currentTeam.sabatages : 0;
 
+  const [doneAnswering, setDoneAnswering] = useState(
+    Boolean(
+      currentTeam?.name &&
+        (gameState?.actionQueue as string[])?.includes(currentTeam.name),
+    ),
+  );
+  const [answer, setAnswer] = useState<string | boolean | null>(null);
+  const [teamToSabatage, setTeamToSabatage] = useState('');
+
+  const submitAnswer = async () => {
+    const action: Action = {
+      teamId: playerId,
+      teamName: currentTeam?.name as string,
+      answer: answer as string,
+      teamToSabatage: teamToSabatage,
+    };
+
+    await playerAnswerQuestion(gameState?.gameId as string, playerId, action);
+
+    setDoneAnswering(true);
+  };
+
+  const revealResults = async () => {
+    await adminReveal(gameState?.gameId as string, playerId);
+  };
+
   if (isAdmin && question)
     return (
       <AdminViewShowQuestion
         question={question}
         canGoNextScreen={canGoNextScreen}
+        revealResults={revealResults}
       />
     );
 
@@ -43,27 +70,42 @@ const AnsweringScreen = () => {
     return (
       <FillInTheBlankQuestionCard
         question={question}
-        answerSubmitted={answerSubmitted}
         teams={teams}
         sabatages={sabatages}
+        teamToSabatage={teamToSabatage}
+        setTeamToSabatage={setTeamToSabatage}
+        answer={answer}
+        setAnswer={setAnswer}
+        doneAnswering={doneAnswering}
+        submitAnswer={submitAnswer}
       />
     );
   if (question?.type === 'MULTIPLE_CHOICE')
     return (
       <MultipleChoiceQuestionCard
         question={question}
-        answerSubmitted={answerSubmitted}
         teams={teams}
         sabatages={sabatages}
+        teamToSabatage={teamToSabatage}
+        setTeamToSabatage={setTeamToSabatage}
+        answer={answer}
+        setAnswer={setAnswer}
+        doneAnswering={doneAnswering}
+        submitAnswer={submitAnswer}
       />
     );
   if (question?.type === 'TRUE_FALSE')
     return (
       <TrueOrFalseQuestionCard
         question={question}
-        answerSubmitted={answerSubmitted}
         teams={teams}
         sabatages={sabatages}
+        teamToSabatage={teamToSabatage}
+        setTeamToSabatage={setTeamToSabatage}
+        answer={answer}
+        setAnswer={setAnswer}
+        doneAnswering={doneAnswering}
+        submitAnswer={submitAnswer}
       />
     );
 
@@ -75,9 +117,11 @@ export default AnsweringScreen;
 export const AdminViewShowQuestion = ({
   question,
   canGoNextScreen,
+  revealResults,
 }: {
   question: Question;
   canGoNextScreen: boolean;
+  revealResults: () => void;
 }) => {
   return (
     <Card>
@@ -96,7 +140,13 @@ export const AdminViewShowQuestion = ({
         }
       />
       <CardActions>
-        <Button fullWidth variant="contained" disabled={!canGoNextScreen}>
+        <Button
+          fullWidth
+          variant="contained"
+          disabled={!canGoNextScreen}
+          sx={{ backgroundColor: GREEN }}
+          onClick={revealResults}
+        >
           Reveal results
         </Button>
       </CardActions>
@@ -106,17 +156,25 @@ export const AdminViewShowQuestion = ({
 
 export const FillInTheBlankQuestionCard = ({
   question,
-  answerSubmitted,
+  answer,
+  setAnswer,
+  doneAnswering,
+  submitAnswer,
   teams,
   sabatages,
+  teamToSabatage,
+  setTeamToSabatage,
 }: {
   question: Question;
-  answerSubmitted: boolean;
+  answer: boolean | string | null;
+  setAnswer: (e: boolean | string | null) => void;
+  doneAnswering: boolean;
+  submitAnswer: () => void;
   teams: any[];
   sabatages: number;
+  teamToSabatage: string;
+  setTeamToSabatage: (s: string) => void;
 }) => {
-  const [answer, setAnswer] = useState('');
-
   return (
     <Card>
       <CardHeader
@@ -127,6 +185,7 @@ export const FillInTheBlankQuestionCard = ({
           </>
         }
       />
+      <Divider />
       <CardContent>
         <TextField
           value={answer}
@@ -139,15 +198,25 @@ export const FillInTheBlankQuestionCard = ({
         <Button
           fullWidth
           variant="contained"
-          disabled={!answer || answerSubmitted}
+          disabled={!answer || doneAnswering}
+          onClick={submitAnswer}
         >
           Submit
         </Button>
       </CardActions>
-      {true && (
-        <CardContent>
-          <SabatageMenu teams={teams} sabatages={sabatages} />
-        </CardContent>
+      {sabatages > 0 && (
+        <>
+          <Divider />
+          <CardContent>
+            <SabatageMenu
+              teams={teams}
+              sabatages={sabatages}
+              teamToSabatage={teamToSabatage}
+              setTeamToSabatage={setTeamToSabatage}
+              doneAnswering={doneAnswering}
+            />
+          </CardContent>
+        </>
       )}
     </Card>
   );
@@ -155,17 +224,25 @@ export const FillInTheBlankQuestionCard = ({
 
 export const TrueOrFalseQuestionCard = ({
   question,
-  answerSubmitted,
+  answer,
+  setAnswer,
+  doneAnswering,
+  submitAnswer,
   teams,
   sabatages,
+  teamToSabatage,
+  setTeamToSabatage,
 }: {
   question: Question;
-  answerSubmitted: boolean;
+  answer: boolean | string | null;
+  setAnswer: (e: boolean | string | null) => void;
+  doneAnswering: boolean;
+  submitAnswer: () => void;
   teams: any[];
   sabatages: number;
+  teamToSabatage: string;
+  setTeamToSabatage: (s: string) => void;
 }) => {
-  const [answer, setAnswer] = useState(null);
-
   return (
     <Card>
       <CardHeader
@@ -176,6 +253,7 @@ export const TrueOrFalseQuestionCard = ({
           </>
         }
       />
+      <Divider />
       <CardContent>
         <ToggleButtonGroup
           exclusive
@@ -190,15 +268,25 @@ export const TrueOrFalseQuestionCard = ({
         <Button
           fullWidth
           variant="contained"
-          disabled={answer === null || answerSubmitted}
+          disabled={answer === null || doneAnswering}
+          onClick={submitAnswer}
         >
           Submit
         </Button>
       </CardActions>
-      {true && (
-        <CardContent>
-          <SabatageMenu teams={teams} sabatages={sabatages} />
-        </CardContent>
+      {sabatages > 0 && (
+        <>
+          <Divider />
+          <CardContent>
+            <SabatageMenu
+              teams={teams}
+              sabatages={sabatages}
+              teamToSabatage={teamToSabatage}
+              setTeamToSabatage={setTeamToSabatage}
+              doneAnswering={doneAnswering}
+            />
+          </CardContent>
+        </>
       )}
     </Card>
   );
@@ -206,17 +294,25 @@ export const TrueOrFalseQuestionCard = ({
 
 export const MultipleChoiceQuestionCard = ({
   question,
-  answerSubmitted,
+  answer,
+  setAnswer,
+  doneAnswering,
+  submitAnswer,
   teams,
   sabatages,
+  teamToSabatage,
+  setTeamToSabatage,
 }: {
   question: Question;
-  answerSubmitted: boolean;
+  answer: boolean | string | null;
+  setAnswer: (e: boolean | string | null) => void;
+  doneAnswering: boolean;
+  submitAnswer: () => void;
   teams: any[];
   sabatages: number;
+  teamToSabatage: string;
+  setTeamToSabatage: (s: string) => void;
 }) => {
-  const [answer, setAnswer] = useState(null);
-
   return (
     <Card>
       <CardHeader
@@ -227,6 +323,7 @@ export const MultipleChoiceQuestionCard = ({
           </>
         }
       />
+      <Divider />
       <CardContent>
         <ToggleButtonGroup exclusive onChange={(_, v) => setAnswer(v)}>
           {question.options?.map((QO, I) => {
@@ -242,15 +339,25 @@ export const MultipleChoiceQuestionCard = ({
         <Button
           fullWidth
           variant="contained"
-          disabled={answer === null || answerSubmitted}
+          disabled={answer === null || doneAnswering}
+          onClick={submitAnswer}
         >
           Submit
         </Button>
       </CardActions>
-      {true && (
-        <CardContent>
-          <SabatageMenu teams={teams} sabatages={sabatages} />
-        </CardContent>
+      {sabatages > 0 && (
+        <>
+          <Divider />
+          <CardContent>
+            <SabatageMenu
+              teams={teams}
+              sabatages={sabatages}
+              teamToSabatage={teamToSabatage}
+              setTeamToSabatage={setTeamToSabatage}
+              doneAnswering={doneAnswering}
+            />
+          </CardContent>
+        </>
       )}
     </Card>
   );
@@ -259,26 +366,35 @@ export const MultipleChoiceQuestionCard = ({
 export const SabatageMenu = ({
   teams,
   sabatages,
+  teamToSabatage,
+  setTeamToSabatage,
+  doneAnswering,
 }: {
   teams: any[];
   sabatages: number;
+  teamToSabatage: string;
+  setTeamToSabatage: (s: string) => void;
+  doneAnswering: boolean;
 }) => {
   return (
     <Stack spacing={1}>
       <Typography>Sabatages: {sabatages}</Typography>
-      {teams?.map((T: any, I: number) => {
-        return (
-          <Button
-            key={I}
-            fullWidth
-            variant="contained"
-            color="error"
-            disabled={sabatages === 0}
-          >
-            {T.name}
-          </Button>
-        );
-      })}
+      <ToggleButtonGroup
+        fullWidth
+        color="error"
+        disabled={sabatages === 0 || doneAnswering}
+        value={teamToSabatage}
+        exclusive
+        onChange={(_, team) => setTeamToSabatage(team)}
+      >
+        {teams?.map((T: any, I: number) => {
+          return (
+            <ToggleButton value={T.name} key={I}>
+              {T.name}
+            </ToggleButton>
+          );
+        })}
+      </ToggleButtonGroup>
     </Stack>
   );
 };

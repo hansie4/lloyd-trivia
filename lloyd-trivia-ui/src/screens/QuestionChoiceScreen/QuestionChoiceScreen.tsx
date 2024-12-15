@@ -1,14 +1,16 @@
 import {
+  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
+  Divider,
   Grid2,
   Typography,
 } from '@mui/material';
 import { useContext } from 'react';
-import { GameContext } from '../../App';
+import { CREAM, GameContext, GREEN } from '../../App';
 import { QuestionBank } from '../../../../src/types/QuestionBank';
 import { adminShow, playerPickQuestion } from '../../util/gateways';
 
@@ -38,30 +40,48 @@ const QuestionChoiceScreen = () => {
   };
 
   return (
-    <Card>
-      <CardHeader title={`${currentTeam?.name} is picking the next question`} />
-      <CardContent>
-        {questionBank && (
-          <QuestionGrid
-            questionBank={questionBank}
-            disabled={!amIChoosing || isAdmin || Boolean(selectedQuestion)}
-            onQuestionSelected={playerClicksQuestion}
-            selectedQuestion={selectedQuestion as string}
-          />
-        )}
-      </CardContent>
-      {isAdmin && (
-        <CardActions>
-          <Button
-            disabled={!canGoNextScreen}
-            color="info"
-            onClick={adminClicksNext}
-          >
-            Next
-          </Button>
-        </CardActions>
-      )}
-    </Card>
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+      }}
+    >
+      <Box padding={1}>
+        <Card sx={{ backgroundColor: CREAM }}>
+          <CardHeader title={`${currentTeam?.name} is picking!`} />
+          <Divider />
+          <CardContent>
+            {questionBank && (
+              <QuestionGrid
+                questionBank={questionBank}
+                disabled={!amIChoosing || isAdmin || Boolean(selectedQuestion)}
+                onQuestionSelected={playerClicksQuestion}
+                selectedQuestion={selectedQuestion as string}
+              />
+            )}
+          </CardContent>
+          {isAdmin && (
+            <>
+              <Divider />
+              <CardActions>
+                <Button
+                  disabled={!canGoNextScreen}
+                  sx={{ backgroundColor: GREEN }}
+                  onClick={adminClicksNext}
+                  fullWidth
+                  variant="contained"
+                >
+                  Next
+                </Button>
+              </CardActions>
+            </>
+          )}
+        </Card>
+      </Box>
+    </Box>
   );
 };
 
@@ -81,7 +101,7 @@ const QuestionGrid = ({
   const categories = questionBank.categories;
 
   return (
-    <Grid2 container columns={categories.length * 3}>
+    <Grid2 container columns={6} spacing={1}>
       {categories.map((C, I) => {
         const is200Selected = selectedQuestion === C[200].question;
         const is400Selected = selectedQuestion === C[400].question;
@@ -110,9 +130,10 @@ const QuestionGrid = ({
             display="flex"
             justifyContent="center"
             alignItems="center"
+            spacing={1}
           >
             <Grid2 size={1}>
-              <Typography>{C.title}</Typography>
+              <Typography textAlign={'center'}>{C.title}</Typography>
             </Grid2>
             <Grid2 size={1}>
               <Button
@@ -127,6 +148,8 @@ const QuestionGrid = ({
                 onClick={() =>
                   is200Selected ? {} : onQuestionSelected(C.catId, 200)
                 }
+                fullWidth
+                variant="contained"
               >
                 200
               </Button>
@@ -142,6 +165,8 @@ const QuestionGrid = ({
                       : 'success'
                 }
                 onClick={() => onQuestionSelected(C.catId, 400)}
+                fullWidth
+                variant="contained"
               >
                 400
               </Button>
@@ -157,6 +182,8 @@ const QuestionGrid = ({
                       : 'success'
                 }
                 onClick={() => onQuestionSelected(C.catId, 600)}
+                fullWidth
+                variant="contained"
               >
                 600
               </Button>
@@ -172,6 +199,8 @@ const QuestionGrid = ({
                       : 'success'
                 }
                 onClick={() => onQuestionSelected(C.catId, 800)}
+                fullWidth
+                variant="contained"
               >
                 800
               </Button>
@@ -187,6 +216,8 @@ const QuestionGrid = ({
                       : 'success'
                 }
                 onClick={() => onQuestionSelected(C.catId, 1000)}
+                fullWidth
+                variant="contained"
               >
                 1000
               </Button>

@@ -59,7 +59,7 @@ function App() {
         display={'flex'}
         justifyContent={'center'}
         alignItems={'center'}
-        overflow={'hidden'}
+        sx={{ overflowX: 'hidden', overflowY: 'auto' }}
       >
         <Box padding={1}>{getView()}</Box>
       </Box>

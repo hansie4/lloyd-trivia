@@ -17,6 +17,6 @@ export interface GameState {
   adminId?: string;
   currentQuestion: { question: Question; value: number };
   currentTeamTurn: number;
-  actionQueue?: Action[];
+  actionQueue?: Action[] | string[];
   readyForNextState?: boolean;
 }

@@ -4,8 +4,10 @@ import {
   ADMIN_REVEAL_GAME_ENDPOINT,
   ADMIN_SHOW_GAME_ENDPOINT,
   ADMIN_START_GAME_ENDPOINT,
+  PLAYER_PICK_ANSWER,
   PLAYER_PICK_QUESTION,
 } from '../constants';
+import { Action } from '../../../src/types/GameMove';
 
 export const adminStart = (gameId: string, adminId: string) => {
   return axios.post(ADMIN_START_GAME_ENDPOINT, {
@@ -46,5 +48,17 @@ export const playerPickQuestion = (
     teamId,
     catId,
     questionValue,
+  });
+};
+
+export const playerAnswerQuestion = (
+  gameId: string,
+  teamId: string,
+  action: Action,
+) => {
+  return axios.post(PLAYER_PICK_ANSWER, {
+    gameId,
+    teamId,
+    action,
   });
 };

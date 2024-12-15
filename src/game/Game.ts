@@ -253,7 +253,10 @@ export class Game {
         },
       },
       currentTeamTurn: this.currentTeamTurn,
-      actionQueue: this.state === 'RESULTS' ? this.actionQueue : undefined,
+      actionQueue:
+        this.state === 'RESULTS'
+          ? this.actionQueue
+          : this.actionQueue.map((A) => A.teamName),
     };
   }
 }
