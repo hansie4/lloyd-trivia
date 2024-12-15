@@ -18,4 +18,5 @@ export interface GameState {
   currentQuestion: { question: Question; value: number };
   currentTeamTurn: number;
   actionQueue?: Action[];
+  readyForNextState?: boolean;
 }

@@ -1,7 +1,6 @@
-import { Star } from '@mui/icons-material';
-import { Container, Box, Card, CardHeader, CardMedia } from '@mui/material';
-import AnswerChoicesAdmin from './AnswerChoicesAdmin';
-import AnswerChoicesPlayer from './AnswerChoicesPlayer';
+import { Container, Box } from '@mui/material';
+import { useContext } from 'react';
+import { GameContext } from '../../App';
 
 export interface UIQuestion {
   value: number;
@@ -13,41 +12,14 @@ export interface UIQuestion {
   correctAnswer?: string;
 }
 
-const AnswerChoiceScreen = ({
-  question,
-  isAdmin,
-}: {
-  question: UIQuestion;
-  isAdmin: boolean;
-}) => {
+const AnswerChoiceScreen = () => {
+  const { gameState, playerId } = useContext(GameContext);
+
   return (
     <Container>
       <Box padding={2}>
-        <Card>
-          <CardHeader
-            title={`(${question.value}) - ${question.question}`}
-            action={
-              question.dailyDouble ? (
-                <Star fontSize="large" color="warning" />
-              ) : undefined
-            }
-          />
-          <CardMedia
-            component="img"
-            height="194"
-            alt={`img for question: ${question.question}`}
-            src={question.photoPath}
-          />
-          {isAdmin ? (
-            <AnswerChoicesAdmin question={question} />
-          ) : (
-            <AnswerChoicesPlayer
-              question={question}
-              selectAnswer={(a) => console.log(a)}
-              disabled={false}
-            />
-          )}
-        </Card>
+        <h1>ANSWER CHOICE</h1>
+        <h2>{JSON.stringify(gameState?.currentQuestion?.question)}</h2>
       </Box>
     </Container>
   );

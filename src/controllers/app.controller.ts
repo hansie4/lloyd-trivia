@@ -27,6 +27,11 @@ export class AppController {
     return 'Hello';
   }
 
+  @Get('debug')
+  getDebug(): unknown[] {
+    return this.appService.games;
+  }
+
   @Get('games')
   getGames(): unknown[] {
     return this.appService.getGames();
@@ -60,7 +65,7 @@ export class AppController {
     const game: Game = this.appService.getGame(gameId);
 
     if (game && playerId) {
-      return interval(1000).pipe(
+      return interval(500).pipe(
         map(() => ({ data: game.getGameState(playerId) })),
       );
     } else {
@@ -69,41 +74,45 @@ export class AppController {
   }
 
   @Post('admin/start')
-  adminStart(@Query() adminId: string, @Query() gameId: string) {
-    this.appService.adminStartGame(adminId, gameId);
+  adminStart(@Body() body: { adminId: string; gameId: string }) {
+    this.appService.adminStartGame(body.adminId, body.gameId);
   }
 
   @Post('admin/show')
-  adminShow(@Query() adminId: string, @Query() gameId: string) {
-    this.appService.adminShowQuestions(adminId, gameId);
+  adminShow(@Body() body: { adminId: string; gameId: string }) {
+    this.appService.adminShowQuestions(body.adminId, body.gameId);
   }
 
   @Post('admin/reveal')
-  adminReveal(@Query() adminId: string, @Query() gameId: string) {
-    this.appService.adminRevealAnswers(adminId, gameId);
+  adminReveal(@Body() body: { adminId: string; gameId: string }) {
+    this.appService.adminRevealAnswers(body.adminId, body.gameId);
   }
 
   @Post('admin/next')
-  adminGoToNext(@Query() adminId: string, @Query() gameId: string) {
-    this.appService.adminGoToNextQuestion(adminId, gameId);
-  }
-
-  @Post('team/answer')
-  teamAnswer(
-    @Query() teamId: string,
-    @Query() gameId: string,
-    @Body() action: Action,
-  ) {
-    this.appService.teamAddAction(teamId, action, gameId);
+  adminGoToNext(@Body() body: { adminId: string; gameId: string }) {
+    this.appService.adminGoToNextQuestion(body.adminId, body.gameId);
   }
 
   @Post('team/pick-question')
   teamPickQuestion(
-    @Query() teamId: string,
-    @Query() gameId: string,
-    @Query() catId: string,
-    @Query() questionValue: number,
+    @Body()
+    body: {
+      teamId: string;
+      gameId: string;
+      catId: string;
+      questionValue: number;
+    },
   ) {
-    this.appService.teamSelectQuestion(teamId, catId, questionValue, gameId);
+    this.appService.teamSelectQuestion(
+      body.teamId,
+      body.catId,
+      body.questionValue,
+      body.gameId,
+    );
+  }
+
+  @Post('team/answer')
+  teamAnswer(@Body() body: { teamId: string; gameId: string; action: Action }) {
+    this.appService.teamAddAction(body.teamId, body.action, body.gameId);
   }
 }

@@ -1,31 +1,30 @@
 import {
-  Container,
-  Paper,
-  Box,
-  Stack,
   TextField,
-  ButtonGroup,
   Button,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Typography,
-  IconButton,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Divider,
 } from '@mui/material';
 import useCreateAndJoinScreen from './useCreateAndJoinScreen';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import { CREAM, GREEN, LIGHT_GREEN, RED } from '../../App';
 
 const CreateAndJoinScreen = ({
   activeGames,
-  loadGames,
   joinGame,
   createGame,
+  rejoinGame,
 }: {
   activeGames: string[];
   loadGames: () => void;
   joinGame: (gameId: string, teamName: string, avatarId: string) => void;
   createGame: (gameId: string) => void;
+  rejoinGame: (gameId: string, playerId: string) => void;
 }) => {
   const {
     gameIdInput,
@@ -34,68 +33,83 @@ const CreateAndJoinScreen = ({
     handleTeamNameChange,
     disableCreate,
     disableJoin,
+    inMemoryGameId,
+    inMemoryPlayerId,
   } = useCreateAndJoinScreen();
 
   return (
-    <Container maxWidth={'xs'}>
-      <Paper square={false} elevation={24}>
-        <Box padding={2}>
-          <Stack spacing={2}>
-            <Typography variant="h5">
-              <IconButton onClick={loadGames}>
-                <RefreshIcon />
-              </IconButton>{' '}
-              Click to join an existing game or create on below:
-            </Typography>
-            <TextField
-              variant="outlined"
-              label="Team Name"
-              size="small"
-              fullWidth
-              value={teamNameInput}
-              onChange={handleTeamNameChange}
-            />
-            <List>
-              {activeGames.length ? (
-                activeGames.map((AG, I) => {
-                  return (
-                    <ListItem disablePadding key={I}>
-                      <ListItemButton
-                        disabled={disableJoin}
-                        onClick={() => joinGame(AG, teamNameInput, 'TODO')}
-                      >
-                        <ListItemText>{AG}</ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })
-              ) : (
-                <ListItem disablePadding>
-                  <ListItemText>No active games currently</ListItemText>
+    <Card sx={{ backgroundColor: CREAM }}>
+      <CardHeader title="Lloyd Trivia!!!" />
+      <Divider />
+      <CardContent>
+        <TextField
+          variant="outlined"
+          label="Team Name"
+          size="small"
+          fullWidth
+          value={teamNameInput}
+          onChange={handleTeamNameChange}
+        />
+        <List>
+          {activeGames.length ? (
+            activeGames.map((AG, I) => {
+              return (
+                <ListItem disablePadding key={I}>
+                  <ListItemButton
+                    sx={{
+                      backgroundColor: LIGHT_GREEN,
+                      border: '3px solid',
+                      borderRadius: '8px',
+                      borderColor: RED,
+                    }}
+                    disabled={
+                      AG === inMemoryGameId && inMemoryPlayerId
+                        ? false
+                        : disableJoin
+                    }
+                    onClick={() => {
+                      if (AG === inMemoryGameId && inMemoryPlayerId) {
+                        rejoinGame(inMemoryGameId, inMemoryPlayerId);
+                      } else {
+                        joinGame(AG, teamNameInput, 'TODO');
+                      }
+                    }}
+                  >
+                    <ListItemText>{AG}</ListItemText>
+                  </ListItemButton>
                 </ListItem>
-              )}
-            </List>
-            <hr />
-            <TextField
-              variant="outlined"
-              label="Game ID"
-              size="small"
-              fullWidth
-              value={gameIdInput}
-              onChange={handleGameIdChange}
-            />
-            <ButtonGroup variant="contained" fullWidth>
-              <Button
-                onClick={() => createGame(gameIdInput)}
-                disabled={disableCreate}
-              >
-                Create game
-              </Button>
-            </ButtonGroup>
-          </Stack>
-        </Box>
-      </Paper>
-    </Container>
+              );
+            })
+          ) : (
+            <ListItem disablePadding>
+              <ListItemText>No active games currently</ListItemText>
+            </ListItem>
+          )}
+        </List>
+      </CardContent>
+      <Divider />
+      <CardContent>
+        <TextField
+          variant="outlined"
+          label="Game ID"
+          size="small"
+          fullWidth
+          value={gameIdInput}
+          onChange={handleGameIdChange}
+        />
+      </CardContent>
+      <CardActions>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={() => createGame(gameIdInput)}
+          disabled={disableCreate}
+          sx={{ backgroundColor: GREEN }}
+        >
+          Create game
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

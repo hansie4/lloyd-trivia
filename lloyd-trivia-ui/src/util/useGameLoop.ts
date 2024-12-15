@@ -9,11 +9,21 @@ import {
 import { GameState } from '../../../src/types/GameState';
 import { v4 as uuidv4 } from 'uuid';
 
-const useGameLoop = () => {
-  const [activeGame, setActiveGame] = useState(localStorage.getItem('gameId'));
-  const [currentPlayerId, setCurrentPlayerId] = useState(
-    localStorage.getItem('playerId'),
-  );
+export interface UseGameLoop {
+  showJoinOrCreateScreen: boolean;
+  loading: boolean;
+  gameState: GameState | undefined;
+  activeGames: string[];
+  loadGames: () => void;
+  joinGame: (gameId: string, teamName: string, avatarId: string) => void;
+  createGame: (gameId: string) => void;
+  playerId: string;
+  subscribeToEventSource: (gameId: string, playerId: string) => void;
+}
+
+const useGameLoop = (): UseGameLoop => {
+  const [activeGame, setActiveGame] = useState<string>('');
+  const [currentPlayerId, setCurrentPlayerId] = useState<string>('');
 
   const showJoinOrCreateScreen = !activeGame || !currentPlayerId;
 
@@ -45,19 +55,21 @@ const useGameLoop = () => {
 
     setLoading(true);
     try {
-      await axios.post(
-        JOIN_GAME_ENDPOINT,
-        {},
-        {
-          params: {
-            gameId: gameId,
-            teamName: teamName,
-            avatarId: avatarId,
+      const teamId = await axios
+        .post(
+          JOIN_GAME_ENDPOINT,
+          {},
+          {
+            params: {
+              gameId: gameId,
+              teamName: teamName,
+              avatarId: avatarId,
+            },
           },
-        },
-      );
+        )
+        .then((res) => res.data);
 
-      subscribeToEventSource(gameId, teamName);
+      subscribeToEventSource(gameId, teamId);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -90,12 +102,16 @@ const useGameLoop = () => {
 
   const subscribeToEventSource = (gameId: string, playerId: string) => {
     console.log('SUBSCRIBING TO GAME LOOP');
-
-    localStorage.setItem('gameId', gameId);
-    localStorage.setItem('playerId', playerId);
+    setActiveGame(gameId);
+    setCurrentPlayerId(playerId);
 
     const params = `?gameId=${encodeURIComponent(gameId)}&playerId=${encodeURIComponent(playerId)}`;
     eventSource.current = new EventSource(EVENT_SOURCE_ENDPOINT + params);
+
+    eventSource.current.onopen = () => {
+      localStorage.setItem('gameId', gameId);
+      localStorage.setItem('playerId', playerId);
+    };
 
     eventSource.current.onmessage = (event: any) => {
       console.log('UPDATE RECIEVED');
@@ -105,8 +121,10 @@ const useGameLoop = () => {
 
     eventSource.current.onerror = () => {
       console.log('ERROR CONNECTING TO GAME LOOP');
-      //localStorage.clear();
       eventSource.current?.close();
+      setActiveGame('');
+      setCurrentPlayerId('');
+      setGameState(undefined);
     };
   };
 
@@ -122,6 +140,8 @@ const useGameLoop = () => {
     loadGames,
     joinGame,
     createGame,
+    playerId: currentPlayerId,
+    subscribeToEventSource,
   };
 };
 

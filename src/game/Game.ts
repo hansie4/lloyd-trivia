@@ -87,7 +87,7 @@ export class Game {
   }
 
   // Team actions
-  getGameState(teamId: string): any {
+  getGameState(teamId: string): GameState {
     return teamId === this.adminId
       ? this.getGameForAdminView()
       : this.getGameForTeamView(teamId);
@@ -205,12 +205,25 @@ export class Game {
     return {
       isAdmin: true,
       gameId: this.gameId,
+      adminId: this.adminId,
       state: this.state,
       teams: this.teams,
       questionBank: this.questionBank,
       currentQuestion: this.currentQuestion,
       currentTeamTurn: this.currentTeamTurn,
       actionQueue: this.actionQueue,
+      readyForNextState:
+        this.state === 'WAITING'
+          ? Boolean(this.teams.length > 0)
+          : this.state === 'PICKING_QUESTION'
+            ? Boolean(this.currentQuestion?.question?.question)
+            : this.state === 'ANSWERING'
+              ? this.areAllActionsIn()
+              : this.state === 'RESULTS'
+                ? true
+                : this.state === 'OVER'
+                  ? true
+                  : false,
     };
   }
 

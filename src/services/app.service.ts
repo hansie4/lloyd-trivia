@@ -11,14 +11,16 @@ export class AppService {
 
   private readonly questionBank = loadQuestionBank();
 
-  private games: Game[] = [];
+  public games: Game[] = [];
 
   getGames(): unknown[] {
-    return this.games.filter((G) => G.state === 'WAITING').map((G) => G.gameId);
+    return this.games.map((G) => G.gameId);
   }
 
   getGame(gameId: string): Game {
-    return this.games.find((G) => G.gameId === gameId);
+    return this.games.find((G) => {
+      return G.gameId === gameId;
+    });
   }
 
   createNewGame(gameId: string, adminId: string): string {
