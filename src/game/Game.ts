@@ -172,7 +172,7 @@ export class Game {
           if (dailyDouble) score = score * 2;
 
           const wasSabatoged = sabatogeMap[A.teamName].length > 0;
-          if (wasSabatoged) score = score / 2;
+          if (wasSabatoged) score = score / 4;
 
           this.teams.find((T) => T.teamId === A.teamId).score += score;
         }
