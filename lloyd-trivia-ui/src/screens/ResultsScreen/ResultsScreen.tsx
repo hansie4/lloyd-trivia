@@ -6,7 +6,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
+  Divider,
   List,
   ListItem,
   ListItemAvatar,
@@ -47,16 +47,17 @@ const ResultsScreen = () => {
 
   return (
     <Card sx={{ backgroundColor: CREAM }}>
-      <CardMedia
+      {/* <CardMedia
         alt={question?.question}
         component="img"
         image={question?.photoPath}
         sx={{ maxWidth: '50vw' }}
-      />
+      /> */}
       <CardHeader
         sx={{ textAlign: 'center' }}
         title={`${question?.correctAnswer} was the correct answer!`}
       />
+      <Divider />
       <CardContent>
         <List>
           {teamsToShow.map((T, I) => {
@@ -80,6 +81,7 @@ const ResultsScreen = () => {
           })}
         </List>
       </CardContent>
+      <Divider />
       <CardActions>
         <Button
           fullWidth
