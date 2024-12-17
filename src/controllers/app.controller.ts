@@ -62,6 +62,8 @@ export class AppController {
     @Query('playerId') playerId: string,
     @Res() response: Response,
   ): Observable<MessageEvent> {
+    this.logger.log('SSE ENDPOINT HIT');
+    response.writeHead(200, { 'Content-Type': 'text/event-stream' });
     const game: Game = this.appService.getGame(gameId);
 
     if (game && playerId) {
