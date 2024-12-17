@@ -75,6 +75,18 @@ export class AppController {
     }
   }
 
+  @Get('game-events-get')
+  gameEventsGet(
+    @Query('gameId') gameId: string,
+    @Query('playerId') playerId: string,
+  ) {
+    const game: Game = this.appService.getGame(gameId);
+
+    if (game && playerId) {
+      return game.getGameState(playerId);
+    }
+  }
+
   @Post('admin/start')
   adminStart(@Body() body: { adminId: string; gameId: string }) {
     this.appService.adminStartGame(body.adminId, body.gameId);

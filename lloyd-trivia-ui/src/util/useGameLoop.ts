@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CREATE_GAME_ENDPOINT,
   EVENT_SOURCE_ENDPOINT,
@@ -27,7 +27,7 @@ const useGameLoop = (): UseGameLoop => {
 
   const showJoinOrCreateScreen = !activeGame || !currentPlayerId;
 
-  const eventSource = useRef<EventSource>();
+  //const eventSource = useRef<EventSource>();
 
   const [activeGames, setActiveGames] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -106,28 +106,24 @@ const useGameLoop = (): UseGameLoop => {
     setCurrentPlayerId(playerId);
 
     const params = `?gameId=${encodeURIComponent(gameId)}&playerId=${encodeURIComponent(playerId)}`;
-    eventSource.current = new EventSource(EVENT_SOURCE_ENDPOINT + params, {
-      withCredentials: true,
-    });
 
-    eventSource.current.onopen = () => {
-      localStorage.setItem('gameId', gameId);
-      localStorage.setItem('playerId', playerId);
-    };
+    setInterval(async () => {
+      try {
+        const data = (await axios.get(EVENT_SOURCE_ENDPOINT + '-get' + params))
+          .data;
 
-    eventSource.current.onmessage = (event: any) => {
-      console.log('UPDATE RECIEVED');
-      setGameState(JSON.parse(event.data));
-      setLoading(false);
-    };
+        localStorage.setItem('gameId', gameId);
+        localStorage.setItem('playerId', playerId);
 
-    eventSource.current.onerror = () => {
-      console.log('ERROR CONNECTING TO GAME LOOP');
-      eventSource.current?.close();
-      setActiveGame('');
-      setCurrentPlayerId('');
-      setGameState(undefined);
-    };
+        setLoading(false);
+        setGameState(data);
+      } catch (error) {
+        console.log('ERROR CONNECTING TO GAME LOOP');
+        setActiveGame('');
+        setCurrentPlayerId('');
+        setGameState(undefined);
+      }
+    }, 500);
   };
 
   useEffect(() => {
