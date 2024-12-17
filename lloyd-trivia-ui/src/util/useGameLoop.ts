@@ -106,7 +106,9 @@ const useGameLoop = (): UseGameLoop => {
     setCurrentPlayerId(playerId);
 
     const params = `?gameId=${encodeURIComponent(gameId)}&playerId=${encodeURIComponent(playerId)}`;
-    eventSource.current = new EventSource(EVENT_SOURCE_ENDPOINT + params);
+    eventSource.current = new EventSource(EVENT_SOURCE_ENDPOINT + params, {
+      withCredentials: true,
+    });
 
     eventSource.current.onopen = () => {
       localStorage.setItem('gameId', gameId);
