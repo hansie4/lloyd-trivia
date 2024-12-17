@@ -67,6 +67,8 @@ export class Game {
     ) {
       this.calculateScores();
       this.state = 'RESULTS';
+
+      this.currentQuestion.question.complete = true;
     } else {
       throw new Error('Invalid state transition');
     }
@@ -80,6 +82,8 @@ export class Game {
       } else {
         this.currentTeamTurn = this.getNextTeam();
         this.state = 'PICKING_QUESTION';
+        this.currentQuestion = null;
+        this.actionQueue = [];
       }
     } else {
       throw new Error('Invalid state transition');

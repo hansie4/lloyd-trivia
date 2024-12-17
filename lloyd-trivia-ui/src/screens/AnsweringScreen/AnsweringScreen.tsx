@@ -4,7 +4,6 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
   Divider,
   Stack,
   TextField,
@@ -29,7 +28,7 @@ const AnsweringScreen = () => {
 
   const teams = gameState?.teams ? gameState.teams : [];
   const currentTeam = gameState?.teams.find((T) => Boolean(T.teamId));
-  const sabatages = currentTeam ? currentTeam.sabatages : 0;
+  //const sabatages = currentTeam ? currentTeam.sabatages : 0;
 
   const [doneAnswering, setDoneAnswering] = useState(
     Boolean(
@@ -44,7 +43,10 @@ const AnsweringScreen = () => {
     const action: Action = {
       teamId: playerId,
       teamName: currentTeam?.name as string,
-      answer: answer as string,
+      answer:
+        question?.type === 'TRUE_FALSE'
+          ? answer === 'true'
+          : (answer as string).toLowerCase(),
       teamToSabatage: teamToSabatage,
     };
 
@@ -71,13 +73,14 @@ const AnsweringScreen = () => {
       <FillInTheBlankQuestionCard
         question={question}
         teams={teams}
-        sabatages={sabatages}
+        sabatages={0}
         teamToSabatage={teamToSabatage}
         setTeamToSabatage={setTeamToSabatage}
         answer={answer}
         setAnswer={setAnswer}
         doneAnswering={doneAnswering}
         submitAnswer={submitAnswer}
+        currentTeam={currentTeam?.name as string}
       />
     );
   if (question?.type === 'MULTIPLE_CHOICE')
@@ -85,13 +88,14 @@ const AnsweringScreen = () => {
       <MultipleChoiceQuestionCard
         question={question}
         teams={teams}
-        sabatages={sabatages}
+        sabatages={0}
         teamToSabatage={teamToSabatage}
         setTeamToSabatage={setTeamToSabatage}
         answer={answer}
         setAnswer={setAnswer}
         doneAnswering={doneAnswering}
         submitAnswer={submitAnswer}
+        currentTeam={currentTeam?.name as string}
       />
     );
   if (question?.type === 'TRUE_FALSE')
@@ -99,13 +103,14 @@ const AnsweringScreen = () => {
       <TrueOrFalseQuestionCard
         question={question}
         teams={teams}
-        sabatages={sabatages}
+        sabatages={0}
         teamToSabatage={teamToSabatage}
         setTeamToSabatage={setTeamToSabatage}
         answer={answer}
         setAnswer={setAnswer}
         doneAnswering={doneAnswering}
         submitAnswer={submitAnswer}
+        currentTeam={currentTeam?.name as string}
       />
     );
 
@@ -125,20 +130,27 @@ export const AdminViewShowQuestion = ({
 }) => {
   return (
     <Card>
-      <CardMedia
+      {/* <CardMedia
         alt={question.question}
         component="img"
         image={question.photoPath}
         sx={{ maxWidth: '70vw' }}
-      />
-      <CardHeader
-        title={
-          <>
-            {question.dailyDouble ? <StarIcon sx={{ marginRight: 2 }} /> : null}
-            {question.question}
-          </>
-        }
-      />
+      /> */}
+      <CardHeader title="Question: " />
+      <Divider />
+      <CardContent>
+        <Typography variant="h2">
+          {
+            <>
+              {question.dailyDouble ? (
+                <StarIcon sx={{ marginRight: 2 }} />
+              ) : null}
+              {question.question}
+            </>
+          }
+        </Typography>
+      </CardContent>
+      <Divider />
       <CardActions>
         <Button
           fullWidth
@@ -164,6 +176,7 @@ export const FillInTheBlankQuestionCard = ({
   sabatages,
   teamToSabatage,
   setTeamToSabatage,
+  currentTeam,
 }: {
   question: Question;
   answer: boolean | string | null;
@@ -174,6 +187,7 @@ export const FillInTheBlankQuestionCard = ({
   sabatages: number;
   teamToSabatage: string;
   setTeamToSabatage: (s: string) => void;
+  currentTeam: string;
 }) => {
   return (
     <Card>
@@ -214,6 +228,7 @@ export const FillInTheBlankQuestionCard = ({
               teamToSabatage={teamToSabatage}
               setTeamToSabatage={setTeamToSabatage}
               doneAnswering={doneAnswering}
+              currentTeam={currentTeam}
             />
           </CardContent>
         </>
@@ -232,6 +247,7 @@ export const TrueOrFalseQuestionCard = ({
   sabatages,
   teamToSabatage,
   setTeamToSabatage,
+  currentTeam,
 }: {
   question: Question;
   answer: boolean | string | null;
@@ -242,6 +258,7 @@ export const TrueOrFalseQuestionCard = ({
   sabatages: number;
   teamToSabatage: string;
   setTeamToSabatage: (s: string) => void;
+  currentTeam: string;
 }) => {
   return (
     <Card>
@@ -284,6 +301,7 @@ export const TrueOrFalseQuestionCard = ({
               teamToSabatage={teamToSabatage}
               setTeamToSabatage={setTeamToSabatage}
               doneAnswering={doneAnswering}
+              currentTeam={currentTeam}
             />
           </CardContent>
         </>
@@ -302,6 +320,7 @@ export const MultipleChoiceQuestionCard = ({
   sabatages,
   teamToSabatage,
   setTeamToSabatage,
+  currentTeam,
 }: {
   question: Question;
   answer: boolean | string | null;
@@ -312,6 +331,7 @@ export const MultipleChoiceQuestionCard = ({
   sabatages: number;
   teamToSabatage: string;
   setTeamToSabatage: (s: string) => void;
+  currentTeam: string;
 }) => {
   return (
     <Card>
@@ -355,6 +375,7 @@ export const MultipleChoiceQuestionCard = ({
               teamToSabatage={teamToSabatage}
               setTeamToSabatage={setTeamToSabatage}
               doneAnswering={doneAnswering}
+              currentTeam={currentTeam}
             />
           </CardContent>
         </>
@@ -364,12 +385,14 @@ export const MultipleChoiceQuestionCard = ({
 };
 
 export const SabatageMenu = ({
+  currentTeam,
   teams,
   sabatages,
   teamToSabatage,
   setTeamToSabatage,
   doneAnswering,
 }: {
+  currentTeam: string;
   teams: any[];
   sabatages: number;
   teamToSabatage: string;
@@ -388,6 +411,7 @@ export const SabatageMenu = ({
         onChange={(_, team) => setTeamToSabatage(team)}
       >
         {teams?.map((T: any, I: number) => {
+          if (T.name === currentTeam) return null;
           return (
             <ToggleButton value={T.name} key={I}>
               {T.name}

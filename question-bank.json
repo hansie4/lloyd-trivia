@@ -2,7 +2,7 @@
   "categories": [
     {
       "catId": "0",
-      "title": "Cat 1",
+      "title": "Sanders' Wedding",
       "200": {
         "type": "TRUE_FALSE",
         "question": "Cat1 Question1",
@@ -42,7 +42,7 @@
     },
     {
       "catId": "1",
-      "title": "Cat 2",
+      "title": "Family Trips",
       "200": {
         "type": "TRUE_FALSE",
         "question": "Cat2 Question1",
@@ -82,7 +82,7 @@
     },
     {
       "catId": "2",
-      "title": "Cat 3",
+      "title": "People",
       "200": {
         "type": "TRUE_FALSE",
         "question": "Cat3 Question1",
@@ -121,8 +121,8 @@
       }
     },
     {
-      "catId": "2",
-      "title": "Cat 4",
+      "catId": "3",
+      "title": "Random",
       "200": {
         "type": "TRUE_FALSE",
         "question": "Cat4 Question1",
@@ -162,7 +162,7 @@
     },
     {
       "catId": "4",
-      "title": "Cat 5",
+      "title": "History",
       "200": {
         "type": "TRUE_FALSE",
         "question": "Cat5 Question1",
