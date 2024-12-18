@@ -4,38 +4,45 @@
       "catId": "0",
       "title": "Sanders' Wedding",
       "200": {
-        "type": "TRUE_FALSE",
-        "question": "Cat1 Question1",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "What color were the bridesmaids' dresses?",
+        "options": ["Baby pink", "Purple", "Salmon", "Red"],
+        "correctAnswer": "Baby pink",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
-        "type": "TRUE_FALSE",
-        "question": "Cat1 Question2",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "What was the cuisine for dinner?",
+        "options": ["Italian", "American", "Chinese", "Mexican"],
+        "correctAnswer": "Mexican",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
-        "question": "Cat1 Question3",
-        "correctAnswer": "motion",
+        "question": "How many groomsmen were there?",
+        "correctAnswer": "10",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
-        "type": "MULTIPLE_CHOICE",
-        "question": "Cat1 Question4",
-        "options": ["Nelson", "Simba", "Theo", "Mittens"],
-        "correctAnswer": "Simba",
+        "type": "FILL_IN_THE_BLANK",
+        "question": "What prop did Matt use during his dinner speech?",
+        "correctAnswer": "index cards",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
-        "type": "FILL_IN_THE_BLANK",
-        "question": "Cat1 Question5",
-        "correctAnswer": "motion",
+        "type": "MULTIPLE_CHOICE",
+        "question": "Who was the maid of honor",
+        "options": [
+          "Haley Deel",
+          "Haley Grace",
+          "Haley Watson",
+          "Haley Kessler"
+        ],
+        "correctAnswer": "Haley Watson",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
@@ -45,37 +52,43 @@
       "title": "Family Trips",
       "200": {
         "type": "TRUE_FALSE",
-        "question": "Cat2 Question1",
+        "question": "Austin took a nap on a rock while ice climbing.",
         "correctAnswer": true,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
-        "type": "TRUE_FALSE",
-        "question": "Cat2 Question2",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "What jumped out at us while we were at Fisherman's Wharf?",
+        "options": [
+          "A women holding a branch",
+          "A squirrel",
+          "A man holding a branch",
+          "A fish"
+        ],
+        "correctAnswer": "A man holding a branch",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
-        "type": "FILL_IN_THE_BLANK",
-        "question": "Cat2 Question3",
-        "correctAnswer": "motion",
+        "type": "MULTIPLE_CHOICE",
+        "question": "What year did we go to Paris?",
+        "options": ["2012", "2013", "2014", "2015"],
+        "correctAnswer": "2013",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
-        "type": "MULTIPLE_CHOICE",
-        "question": "Cat2 Question4",
-        "options": ["Nelson", "Simba", "Theo", "Mittens"],
-        "correctAnswer": "Simba",
+        "type": "FILL_IN_THE_BLANK",
+        "question": "__ volunteered to pose next to the pig at the Hawaii Luau.",
+        "correctAnswer": "wes",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
-        "question": "Cat2 Question5",
-        "correctAnswer": "motion",
+        "question": "What rid at Disney World shut down while we were on it?",
+        "correctAnswer": "splash mountain",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
@@ -85,39 +98,44 @@
       "title": "People",
       "200": {
         "type": "TRUE_FALSE",
-        "question": "Cat3 Question1",
+        "question": "Grams was an english teacher.",
         "correctAnswer": true,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
-        "type": "TRUE_FALSE",
-        "question": "Cat3 Question2",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "Kevin has done the following jobs EXCEPT:",
+        "options": [
+          "Tattoo artist",
+          "Something in HR",
+          "Snowcone chef",
+          "Esthetician"
+        ],
+        "correctAnswer": "Tattoo artist",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
         "type": "FILL_IN_THE_BLANK",
-        "question": "Cat3 Question3",
-        "correctAnswer": "motion",
+        "question": "April L. is a seasonal park ranger at the __ridge Parkway",
+        "correctAnswer": "blue",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
-        "type": "MULTIPLE_CHOICE",
-        "question": "Cat3 Question4",
-        "options": ["Nelson", "Simba", "Theo", "Mittens"],
-        "correctAnswer": "Simba",
+        "type": "TRUE_FALSE",
+        "question": "Fran's poetry organization is called The Houston Poetry Institute.",
+        "correctAnswer": false,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
-        "question": "Cat3 Question5",
-        "correctAnswer": "motion",
+        "question": "Matt was a leader for the YMCA ____",
+        "correctAnswer": "y guides",
         "photoPath": "/question-pics/testImage1.jpg",
-        "dailyDouble": false
+        "dailyDouble": true
       }
     },
     {
@@ -125,37 +143,49 @@
       "title": "Random",
       "200": {
         "type": "TRUE_FALSE",
-        "question": "Cat4 Question1",
-        "correctAnswer": true,
+        "question": "Pops' spaniel was named Little Boy.",
+        "correctAnswer": false,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
-        "type": "TRUE_FALSE",
-        "question": "Cat4 Question2",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "What age is Simba?",
+        "options": ["3.5", "4.5", "5.5", "6.5"],
+        "correctAnswer": "6.5",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "600": {
-        "type": "FILL_IN_THE_BLANK",
-        "question": "Cat4 Question3",
-        "correctAnswer": "motion",
+        "type": "MULTIPLE_CHOICE",
+        "question": "What entire room was renovated in the Arkansas house?",
+        "options": [
+          "The dining room",
+          "The attic",
+          "The basement",
+          "The kitchen"
+        ],
+        "correctAnswer": "The basement",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "800": {
         "type": "MULTIPLE_CHOICE",
-        "question": "Cat4 Question4",
-        "options": ["Nelson", "Simba", "Theo", "Mittens"],
-        "correctAnswer": "Simba",
+        "question": "Austin had to choose to sit between __ and __ ",
+        "options": [
+          "Wendy / Matt",
+          "Grams / Marilyn",
+          "Matt / Grams",
+          "Wendy / Marilyn"
+        ],
+        "correctAnswer": "Grams / Marilyn",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
-        "type": "FILL_IN_THE_BLANK",
-        "question": "Cat4 Question5",
-        "correctAnswer": "motion",
+        "type": "TRUE_FALSE",
+        "question": "An opossum broke into our Costa Rica kitchen and had a feast.",
+        "correctAnswer": false,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
@@ -164,38 +194,38 @@
       "catId": "4",
       "title": "History",
       "200": {
-        "type": "TRUE_FALSE",
-        "question": "Cat5 Question1",
-        "correctAnswer": true,
+        "type": "MULTIPLE_CHOICE",
+        "question": "What was Pops famous for losing on family vacations?",
+        "options": ["Keys", "Glasses", "Phone", "Wallet"],
+        "correctAnswer": "Glasses",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "400": {
+        "type": "FILL_IN_THE_BLANK",
+        "question": "Grams' dad hunted __s after work for them to have for dinner.",
+        "correctAnswer": "squirrel",
+        "photoPath": "/question-pics/testImage1.jpg",
+        "dailyDouble": true
+      },
+      "600": {
         "type": "TRUE_FALSE",
-        "question": "Cat5 Question2",
+        "question": "Growing up, Grams had chickens.",
         "correctAnswer": true,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
-      "600": {
-        "type": "FILL_IN_THE_BLANK",
-        "question": "Cat5 Question3",
-        "correctAnswer": "motion",
-        "photoPath": "/question-pics/testImage1.jpg",
-        "dailyDouble": false
-      },
       "800": {
-        "type": "MULTIPLE_CHOICE",
-        "question": "Cat5 Question4",
-        "options": ["Nelson", "Simba", "Theo", "Mittens"],
-        "correctAnswer": "Simba",
+        "type": "TRUE_FALSE",
+        "question": "Grandmom and Grandad had a big wedding.",
+        "correctAnswer": false,
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       },
       "1000": {
         "type": "FILL_IN_THE_BLANK",
-        "question": "Cat5 Question5",
-        "correctAnswer": "motion",
+        "question": "When Pops & Grams went to college, who had more outfits?",
+        "correctAnswer": "pops",
         "photoPath": "/question-pics/testImage1.jpg",
         "dailyDouble": false
       }
