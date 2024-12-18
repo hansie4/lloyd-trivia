@@ -24,7 +24,7 @@
         "question": "How many groomsmen were there?",
         "correctAnswer": "10",
         "photoPath": "/question-pics/testImage1.jpg",
-        "dailyDouble": false
+        "dailyDouble": true
       },
       "800": {
         "type": "FILL_IN_THE_BLANK",
