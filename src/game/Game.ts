@@ -169,7 +169,10 @@ export class Game {
       const sabatogeMap = this.getSabatogedMap();
 
       this.actionQueue.forEach((A) => {
-        if (A.answer === this.currentQuestion.question.correctAnswer) {
+        if (
+          A.answer.toString().toLowerCase() ===
+          this.currentQuestion.question.correctAnswer.toString().toLowerCase()
+        ) {
           let score = this.currentQuestion.value;
 
           const dailyDouble = this.currentQuestion.question.dailyDouble;
